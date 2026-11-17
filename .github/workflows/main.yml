@@ -1,0 +1,37 @@
+name: Build Windows portable
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Backend -> backend.exe (PyInstaller)
+        working-directory: backend
+        run: |
+          pip install -r requirements.txt pyinstaller
+          pyinstaller --noconfirm --onedir --noconsole --name backend --collect-submodules uvicorn app.py
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Frontend -> exe portable (electron-builder)
+        working-directory: frontend
+        run: |
+          npm install
+          npm run dist
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ODBC-Test-windows
+          path: frontend/dist/*.exe
