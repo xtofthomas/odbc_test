@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'">
+  <title>ODBC Test</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>ODBC Test</h1>
+    <span id="status" class="pill">Backend…</span>
+  </header>
+
+  <main>
+    <section>
+      <h2>Pilotes ODBC sur cette machine</h2>
+      <ul id="drivers" class="chips"></ul>
+      <p class="muted" id="dsns"></p>
+    </section>
+
+    <section>
+      <h2>Chaîne de connexion</h2>
+      <textarea id="conn" rows="3" spellcheck="false"
+        placeholder="Driver={ODBC Driver 18 for SQL Server};Server=SRV\INSTANCE;Database=MaBase;Trusted_Connection=yes;TrustServerCertificate=yes;"></textarea>
+      <div class="row">
+        <button id="btnTest" class="primary">Tester la connexion</button>
+        <button id="btnSave">Enregistrer</button>
+        <select id="examples">
+          <option value="">Exemples…</option>
+          <option value="Driver={ODBC Driver 18 for SQL Server};Server=SERVEUR\INSTANCE;Database=MaBase;Trusted_Connection=yes;TrustServerCertificate=yes;">SQL Server (authentification Windows)</option>
+          <option value="Driver={ODBC Driver 18 for SQL Server};Server=SERVEUR;Database=MaBase;UID=utilisateur;PWD=motdepasse;TrustServerCertificate=yes;">SQL Server (login SQL)</option>
+          <option value="Driver={SQL Server};Server=SERVEUR;Database=MaBase;Trusted_Connection=yes;">SQL Server (ancien pilote intégré à Windows)</option>
+          <option value="DSN=MonDSN;">DSN configuré dans l'administrateur ODBC</option>
+          <option value="Driver={PostgreSQL Unicode};Server=SERVEUR;Port=5432;Database=mabase;Uid=utilisateur;Pwd=motdepasse;">PostgreSQL</option>
+          <option value="Driver={MySQL ODBC 8.0 Unicode Driver};Server=SERVEUR;Database=mabase;User=utilisateur;Password=motdepasse;">MySQL</option>
+        </select>
+      </div>
+      <pre id="testResult" class="result hidden"></pre>
+    </section>
+
+    <section>
+      <h2>Requête</h2>
+      <textarea id="sql" rows="4" spellcheck="false">SELECT 1 AS test</textarea>
+      <div class="row">
+        <button id="btnRun" class="primary">Exécuter</button>
+        <span class="muted">Lecture seule de fait : toute modification est annulée (rollback). 200 lignes max.</span>
+      </div>
+      <p id="queryInfo" class="muted"></p>
+      <div class="table-wrap"><table id="grid"></table></div>
+    </section>
+  </main>
+
+  <script src="renderer.js"></script>
+</body>
+</html>

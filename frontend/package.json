@@ -1,0 +1,26 @@
+{
+  "name": "odbc-test",
+  "version": "0.1.0",
+  "description": "Application minimaliste pour tester une connexion ODBC (Electron + Python)",
+  "main": "main.js",
+  "private": true,
+  "scripts": {
+    "start": "electron .",
+    "dist": "electron-builder --win portable --publish never"
+  },
+  "devDependencies": {
+    "electron": "^45.3.3",
+    "electron-builder": "^26.0.0"
+  },
+  "build": {
+    "appId": "be.alambic.odbctest",
+    "productName": "ODBC Test",
+    "files": ["main.js", "preload.js", "renderer/**"],
+    "extraResources": [
+      { "from": "../backend/dist/backend", "to": "backend" }
+    ],
+    "win": { "target": "portable" },
+    "portable": { "artifactName": "ODBC-Test-${version}.exe" },
+    "directories": { "output": "dist" }
+  }
+}
